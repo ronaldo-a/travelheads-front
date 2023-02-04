@@ -23,6 +23,12 @@ function getSession() {
 	return promise;
 }
 
+function getTravelById(id) {
+	const config = createHeaders();
+	const promise = axios.get(`${BASE_URL}/travels/id/${id}`, config);
+	return promise;
+}
+
 function getMyTravels() {
 	const config = createHeaders();
 	const promise = axios.get(`${BASE_URL}/travels/user`, config);
@@ -47,6 +53,12 @@ function getFeaturesByCityId(cityId) {
 	return promise;
 }
 
+function getFeaturesByTravelId(travelId) {
+	const config = createHeaders();
+	const promise = axios.get(`${BASE_URL}/features/travel/${travelId}`, config);
+	return promise;
+}
+
 function publishPost(body) {
 	const config = createHeaders();
 	const promise = axios.post(`${BASE_URL}/posts/publish`, body, config);
@@ -56,8 +68,10 @@ function publishPost(body) {
 export {
 	logIn,
 	getSession,
+	getTravelById,
 	getMyTravels,
 	getCities,
 	getFeatures,
+	getFeaturesByTravelId,
 	getFeaturesByCityId
 };

@@ -6,6 +6,7 @@ export default function HomePage() {
     const [ myTravels, setMyTravels ] = useState([]);
     const [ cities, setCities ] = useState([]);
     const [ features, setFeatures ] = useState([]);
+    const [ isError, setIsError ] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,7 +16,7 @@ export default function HomePage() {
                 const myTravels = await getMyTravels();
                 setMyTravels(myTravels.data);
             } catch (error) {
-                setMyTravels([{name: "Não encontramos suas viagens ainda.", cities: {name: ""}}]);
+                setIsError(true);
             }
         
             try {
@@ -25,7 +26,7 @@ export default function HomePage() {
                 const citiesPromisse = await getCities();
                 setCities(citiesPromisse.data);
             } catch (error) {
-                console.log(error)
+                setIsError(true);
             }
         }
 
@@ -50,13 +51,16 @@ export default function HomePage() {
     }
     
     return (
+        isError ? 
+        <h1>O fuso horário deixou a página preguiçosa, mas já estamos consertando isso.</h1>
+        :
         <>
             <div>
                 <h3>Minhas viagens</h3>
                     {myTravels.length === 0 ? <h6>Sem viagens ainda</h6> 
                     :
-                    myTravels.map((travel, index) => (
-                        <div key={index}>
+                    myTravels.map(travel => (
+                        <div key={travel.id} onClick={() => {navigate(`/travelPage/${travel.id}`)}}>
                             <h6>{travel.name}</h6>
                             <h6>{travel.cities.name}</h6>
                         </div>

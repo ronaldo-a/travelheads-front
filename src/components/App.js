@@ -4,6 +4,7 @@ import LoginPage from './AuthPage/LoginPage';
 import HomePage from './HomePage/HomePage';
 import PrivatePage from './AuthPage/PrivatePage';
 import CityPage from './CityPage/CityPage';
+import TravelPage from './TravelPage/travelPage';
 
 export default function App() {
   return (
@@ -22,6 +23,13 @@ export default function App() {
 						element={
 							<PrivatePage >
 								<CityPage />
+							</PrivatePage>
+						}/>
+
+        <Route path="/travelPage/:travelId"
+						element={
+							<PrivatePage >
+								<TravelPage />
 							</PrivatePage>
 						}/>
 
