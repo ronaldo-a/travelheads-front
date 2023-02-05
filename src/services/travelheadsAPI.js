@@ -59,9 +59,9 @@ function getFeaturesByTravelId(travelId) {
 	return promise;
 }
 
-function publishPost(body) {
+function insertTravel(body) {
 	const config = createHeaders();
-	const promise = axios.post(`${BASE_URL}/posts/publish`, body, config);
+	const promise = axios.post(`${BASE_URL}/travels`, body, config);
 	return promise;
 }
 
@@ -73,5 +73,6 @@ export {
 	getCities,
 	getFeatures,
 	getFeaturesByTravelId,
-	getFeaturesByCityId
+	getFeaturesByCityId,
+	insertTravel
 };

@@ -13,12 +13,16 @@ export default function TravelPage() {
         async function fetchData() {
             try {
                 const travelPromise = await getTravelById(travelId);
-                const featuresPromise = await getFeaturesByTravelId(travelId);
-
-                setTravel(travelPromise.data);
-                setFeatures(featuresPromise.data);
+                setTravel(travelPromise.data);                
             } catch (error) {
                 setIsError(true);
+            }
+
+            try {
+                const featuresPromise = await getFeaturesByTravelId(travelId);
+                setFeatures(featuresPromise.data);    
+            } catch (error) {
+                setFeatures([]);
             }
         }
 
@@ -44,6 +48,10 @@ export default function TravelPage() {
                 <h2>{travelCountry}</h2>
                 <h2>{travelUser}</h2>
             </>
+
+            {features.length === 0 ?
+            <h3>Sem atrações adicionadas.</h3>
+            :
             <>
                 {features.map(feature => (
                     <div key={feature.id}>
@@ -55,7 +63,7 @@ export default function TravelPage() {
                         <img src={feature.features.img} alt={feature.features.name}/>
                     </div>
                 ))}
-            </>
+            </>}
         </>
     )
 }

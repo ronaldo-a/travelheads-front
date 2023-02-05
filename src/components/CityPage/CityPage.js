@@ -31,6 +31,9 @@ export default function CityPage() {
         isError ?
         <h1>O fuso horário deixou a página preguiçosa, mas já estamos resolvendo isso.</h1>
         :
+        cityFeatures.length === 0 ?
+        <h1>Carregando</h1>
+        :
         <div>    
         <img src={cityFeatures[0].img} alt="city feature" />
         <h1>{cityName}</h1>

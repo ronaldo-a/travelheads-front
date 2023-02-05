@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { getCities, getFeatures, getMyTravels } from "../../services/travelheadsAPI"
+import AddTravelCard from "./addTravelCard";
 
 export default function HomePage() {
     const [ myTravels, setMyTravels ] = useState([]);
     const [ cities, setCities ] = useState([]);
     const [ features, setFeatures ] = useState([]);
     const [ isError, setIsError ] = useState(false);
+    const [ showAddTravel, setShowAddTravel ] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,7 +33,7 @@ export default function HomePage() {
         }
 
         getData();    
-    }, [])
+    }, [showAddTravel]);
 
     const featuresHash = {};
     const citiesWithImage = [];
@@ -54,6 +56,7 @@ export default function HomePage() {
         isError ? 
         <h1>O fuso horário deixou a página preguiçosa, mas já estamos consertando isso.</h1>
         :
+        showAddTravel === false ? 
         <>
             <div>
                 <h3>Minhas viagens</h3>
@@ -65,6 +68,7 @@ export default function HomePage() {
                             <h6>{travel.cities.name}</h6>
                         </div>
                     ))}
+                <button onClick={() => setShowAddTravel(true)}>Adicionar viagem</button>    
             </div>
             <div>
                 <h3>Quer conhecer uma nova cidade?</h3>
@@ -83,6 +87,41 @@ export default function HomePage() {
                 </>
                 }
             </div>
+        </>
+        :
+        <>
+        <AddTravelCard setShowAddTravel={setShowAddTravel}/>
+        <>
+            <div>
+                <h3>Minhas viagens</h3>
+                    {myTravels.length === 0 ? <h6>Sem viagens ainda</h6> 
+                    :
+                    myTravels.map(travel => (
+                        <div key={travel.id} onClick={() => {navigate(`/travelPage/${travel.id}`)}}>
+                            <h6>{travel.name}</h6>
+                            <h6>{travel.cities.name}</h6>
+                        </div>
+                    ))}
+                <button onClick={() => setShowAddTravel(true)}>Adicionar viagem</button>    
+            </div>
+            <div>
+                <h3>Quer conhecer uma nova cidade?</h3>
+                {cities.length === 0 ? 
+                
+                <h6>Novas cidades em breve</h6>
+                :
+                <>
+                {citiesWithImage.map(city => (
+                    <div key={city.id} onClick={() => navigate(`/cityPage/${city.id}`)}>
+                        <h6>{city.name}</h6>
+                        <h6>{city.country}</h6>
+                        <img src={city.img} alt={city.name}/>
+                    </div>
+                ))}
+                </>
+                }
+            </div>
+            </>
         </>
     )
 }
