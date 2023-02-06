@@ -12,6 +12,11 @@ function createHeaders() {
 	return config;
 }
 
+function insertUser(body) {
+	const promise = axios.post(`${BASE_URL}/users`, body);
+	return promise;
+}
+
 function logIn(body) {
 	const promise = axios.post(`${BASE_URL}/auth`, body);
 	return promise;
@@ -20,6 +25,12 @@ function logIn(body) {
 function getSession() {
 	const config = createHeaders();
 	const promise = axios.get(`${BASE_URL}/auth`, config);
+	return promise;
+}
+
+function getUserById() {
+	const config = createHeaders();
+	const promise = axios.get(`${BASE_URL}/users/id`, config);
 	return promise;
 }
 
@@ -65,14 +76,23 @@ function insertTravel(body) {
 	return promise;
 }
 
+function insertFeature(body) {
+	const config = createHeaders();
+	const promise = axios.post(`${BASE_URL}/features`, body, config);
+	return promise;
+}
+
 export {
+	insertUser,
 	logIn,
 	getSession,
+	getUserById,
 	getTravelById,
 	getMyTravels,
 	getCities,
 	getFeatures,
 	getFeaturesByTravelId,
 	getFeaturesByCityId,
-	insertTravel
+	insertTravel,
+	insertFeature
 };

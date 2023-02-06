@@ -52,6 +52,7 @@ export default function LoginPage() {
 						name="email"
 						type="text"
 						placeholder="E-mail"
+						required
 						onChange={handleForm}
 						disabled={isButtonDisabled ? true : false}
 					/>
@@ -59,14 +60,15 @@ export default function LoginPage() {
 						name="password"
 						type="password"
 						placeholder="Password"
+						required
 						onChange={handleForm}
 						disabled={isButtonDisabled ? true : false}
 					/>
 					<button name="login" type="submit" disabled={isButtonDisabled}>
 						log in
 					</button>
-					<Link to="/sign-up">
-						<p>First time ? Create an account!</p>
+					<Link to="/registrate">
+						<h1>First time? Create an account!</h1>
 					</Link>
 				</form>
 			</FormDiv>

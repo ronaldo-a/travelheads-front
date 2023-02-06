@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFeaturesByTravelId, getTravelById } from "../../services/travelheadsAPI";
+import AddFeatureCard from "./AddFeatureCard";
 
 export default function TravelPage() {
     const { travelId } = useParams();
     const [ travel, setTravel ] = useState([]);
     const [ features, setFeatures ] = useState([]);
     const [ isError, setIsError ] = useState(false);
+    const [ showAddFeature, setShowAddFeature ] = useState(false);
 
     useEffect(() => {
 
@@ -28,7 +30,7 @@ export default function TravelPage() {
 
 
         fetchData();
-    }, [])
+    }, [showAddFeature])
 
     let travelUser, travelCity, travelCountry = "";
     if (travel.length !== 0) {
@@ -41,6 +43,7 @@ export default function TravelPage() {
         isError ?
         <h1>O fuso horário deixou a página preguiçosa, mas já estamos resolvendo isso.</h1>
         :
+        showAddFeature === false ?
         <>
             <>
                 <h1>{travel.name}</h1>
@@ -50,7 +53,10 @@ export default function TravelPage() {
             </>
 
             {features.length === 0 ?
-            <h3>Sem atrações adicionadas.</h3>
+            <>
+                <h3>Sem atrações adicionadas.</h3>
+                <button onClick={() => setShowAddFeature(true)}>Adicionar atração</button>
+            </>
             :
             <>
                 {features.map(feature => (
@@ -63,7 +69,18 @@ export default function TravelPage() {
                         <img src={feature.features.img} alt={feature.features.name}/>
                     </div>
                 ))}
+                <button onClick={() => setShowAddFeature(true)}>Adicionar atração</button>
             </>}
+        </>
+        :
+        <>
+            <>
+                <h1>{travel.name}</h1>
+                <h2>{travelCity}</h2>
+                <h2>{travelCountry}</h2>
+                <h2>{travelUser}</h2>
+            </>
+            <AddFeatureCard travelId={+travelId} setShowAddFeature={setShowAddFeature} />
         </>
     )
 }
