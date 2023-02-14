@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom"
 import styled from "styled-components";
 import { WrapperBase } from "../../style/styledComponents";
 
-export default function CityCard({city}) {
-    const navigate = useNavigate();
+export default function FeatureCard({feature}) {
 
     return (
-        <Wrapper onClick={() => navigate(`/cityPage/${city.id}`)}>
-                <img src={city.img} alt={city.name}/>
+        <Wrapper>
+                <img src={feature.img} alt={feature.name}/>
                 <WrapperBase>
-                    <h6>{city.name}</h6>
-                    <p>{city.country}</p>
+                    <h6>{feature.name}</h6>
+                    <p>R$ {(feature.price/100).toFixed(2).replace(".", ",")}</p>
+                    <p>{(feature.type).charAt(0).toUpperCase() + (feature.type).slice(1)}</p>
                 </WrapperBase>
         </Wrapper>
     )

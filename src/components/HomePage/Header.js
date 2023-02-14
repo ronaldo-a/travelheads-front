@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { SlMenu } from "react-icons/sl";
 import { getUserById } from "../../services/travelheadsAPI";
+import UserOptMenu from "./UserOptMenu";
 
-export default function Header({userId}) {
+export default function Header() {
     const [ userName, setUserName ] = useState("");
     const [ userImg, setUserImg ] = useState("");
+    const [ showUserOpt, setShowUserOpt ] = useState(false);
+    console.log(showUserOpt)
+    const navigate = useNavigate();
 
     useEffect(() => {
         
@@ -24,11 +30,13 @@ export default function Header({userId}) {
 
     return (
         <HeaderWrapper>
-            <AppTitle>TravelHeads</AppTitle>
+            <AppTitle onClick={() => navigate("/home")}>TravelHeads</AppTitle>
             <UserInfo>
                 <p>{userName}</p>
                 <img src={userImg} alt={userName} />
+                <SlMenu className="react-icons" onClick={() => setShowUserOpt(!showUserOpt)}/>
             </UserInfo>
+            {showUserOpt && <UserOptMenu setShowUserOpt={setShowUserOpt}/>}
         </HeaderWrapper>
     )
 }
@@ -43,7 +51,7 @@ const HeaderWrapper = styled.div`
     display: flex;
     align-items: center;
     //background: rgba(255, 255, 255, 0.8);
-    background-color: #007B83;
+    background-color: #6c534e;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
 `
 const AppTitle = styled.h1`
@@ -55,9 +63,12 @@ const AppTitle = styled.h1`
     font-size: 48px;
     font-weight: 400;
     line-height: 65px;
-    color: #FFFFFF;
-`
+    color: #2c1a1d;
 
+    :hover {
+        cursor: pointer;
+    }
+`
 const UserInfo = styled.div`
     display: flex;
     align-items: center;
@@ -77,6 +88,10 @@ const UserInfo = styled.div`
         width: 50px;
         border-radius: 50%;
         object-fit: cover;
-        margin-left: 15px;
+        margin: 0 15px;
+    }
+
+    .react-icons {
+        color: red;
     }
 `

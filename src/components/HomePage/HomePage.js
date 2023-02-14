@@ -9,6 +9,7 @@ import Header from "./Header";
 
 export default function HomePage() {
     const [ myTravels, setMyTravels ] = useState([]);
+    console.log("aquiii")
     const [ cities, setCities ] = useState([]);
     const [ features, setFeatures ] = useState([]);
     const [ isError, setIsError ] = useState(false);
@@ -40,6 +41,7 @@ export default function HomePage() {
 
     const featuresHash = {};
     const citiesWithImage = [];
+    const MyTravelsWithImage = [];
 
     for (let i=0; i < features.length; i++) {
         featuresHash[features[i].addresses.cities.name] = features[i].img; 
@@ -53,6 +55,16 @@ export default function HomePage() {
             country: cities[j].countries.name,
             img: featuresHash[cities[j].name]
         });
+    }
+
+    for (let s = 0; s < myTravels.length; s++) {
+        MyTravelsWithImage.push(
+            {
+                id: myTravels[s].id,
+                name: myTravels[s].name,
+                cityName: myTravels[s].cities.name,
+                img: featuresHash[myTravels[s].cities.name]
+            });
     }
     
     return (
@@ -72,10 +84,10 @@ export default function HomePage() {
             </CitiesSection>
             <TravelsSection>
                 <SectionTitle>Minhas viagens</SectionTitle>
-                {myTravels.length === 0 ? <SectionEmptyTitle>Sem viagens ainda</SectionEmptyTitle> 
+                {MyTravelsWithImage.length === 0 ? <SectionEmptyTitle>Sem viagens ainda</SectionEmptyTitle> 
                 :
                 <CardsRow>
-                    {myTravels.map(travel => <MyTravelCard travel={travel} key={travel.id}/>)}
+                    {MyTravelsWithImage.map(travel => <MyTravelCard travel={travel} key={travel.id}/>)}
                 </CardsRow>
                 }
                 <Button onClick={() => setShowAddTravel(true)}>Adicionar viagem</Button>    
@@ -115,8 +127,8 @@ export default function HomePage() {
 }
 
 const CitiesSection = styled(SectionWrapper)`
-    background-color: blueviolet;
+    background-color: #dbb3b1;
 `
 const TravelsSection = styled(SectionWrapper)`
-    background-color: green;
+    background-color: #dbb3b1;
 `

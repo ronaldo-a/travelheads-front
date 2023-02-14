@@ -20,6 +20,12 @@ function insertUser(body) {
 function logIn(body) {
 	const promise = axios.post(`${BASE_URL}/auth`, body);
 	return promise;
+}
+
+function logOut() {
+	const config = createHeaders();
+	const promise = axios.delete(`${BASE_URL}/auth`, config);
+	return promise;
 } 
 
 function getSession() {
@@ -85,6 +91,7 @@ function insertFeature(body) {
 export {
 	insertUser,
 	logIn,
+	logOut,
 	getSession,
 	getUserById,
 	getTravelById,

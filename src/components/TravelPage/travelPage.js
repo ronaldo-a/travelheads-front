@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFeaturesByTravelId, getTravelById } from "../../services/travelheadsAPI";
+import { Button, Page, PageTop, SectionWrapper } from "../../style/styledComponents";
+import styled from "styled-components";
+import Header from "../HomePage/Header";
 import AddFeatureCard from "./AddFeatureCard";
+import FeatureCard from "./FeatureCard";
 
 export default function TravelPage() {
     const { travelId } = useParams();
@@ -41,46 +45,42 @@ export default function TravelPage() {
 
     return (
         isError ?
-        <h1>O fuso horário deixou a página preguiçosa, mas já estamos resolvendo isso.</h1>
+        <Page>
+            <Header />
+            <h1>O fuso horário deixou a página preguiçosa, mas já estamos resolvendo isso.</h1>
+        </Page>  
         :
-        showAddFeature === false ?
-        <>
-            <>
-                <h1>{travel.name}</h1>
-                <h2>{travelCity}</h2>
-                <h2>{travelCountry}</h2>
-                <h2>{travelUser}</h2>
-            </>
+        <Page>
+            <Header />
+            <TravelPageTop>
+                <img src={features[0]?.features.img} alt={features[0]?.features.name}/>
+                <h6>{travel.name}</h6>
+                <p>{travelCity}, {travelCountry}</p>
+                <p className="user">{travelUser}</p>
+            </TravelPageTop>
 
             {features.length === 0 ?
             <>
                 <h3>Sem atrações adicionadas.</h3>
-                <button onClick={() => setShowAddFeature(true)}>Adicionar atração</button>
+                <Button onClick={() => setShowAddFeature(true)}>Adicionar atração</Button>
+                <AddFeatureCard travelId={travelId} setShowAddFeature={setShowAddFeature}/>
             </>
             :
-            <>
+            <SectionWrapper>
                 {features.map(feature => (
-                    <div key={feature.id}>
-                        <h3>{feature.features.name}</h3>
-                        <h3>{feature.features.type}</h3>
-                        <h3>{feature.features.addresses.street}</h3>
-                        <h3>{feature.features.addresses.number}</h3>
-                        <h3>{feature.features.addresses.neighborhood}</h3>
-                        <img src={feature.features.img} alt={feature.features.name}/>
-                    </div>
+                    <FeatureCard key={feature.id} feature={feature}/>
                 ))}
-                <button onClick={() => setShowAddFeature(true)}>Adicionar atração</button>
-            </>}
-        </>
-        :
-        <>
-            <>
-                <h1>{travel.name}</h1>
-                <h2>{travelCity}</h2>
-                <h2>{travelCountry}</h2>
-                <h2>{travelUser}</h2>
-            </>
-            <AddFeatureCard travelId={+travelId} setShowAddFeature={setShowAddFeature} />
-        </>
+                <Button onClick={() => setShowAddFeature(true)}>Adicionar atração</Button>
+                {showAddFeature && <AddFeatureCard travelId={travelId} setShowAddFeature={setShowAddFeature}/>}
+            </SectionWrapper>}
+        </Page>
     )
 }
+
+const TravelPageTop = styled(PageTop)`
+    .user {
+        position: absolute;
+        left: 400px;
+        bottom: 63px;
+    }
+`

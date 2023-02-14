@@ -1,6 +1,7 @@
 import '../style/reset.css';
 import '../style/fonts.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { IconContext } from "react-icons";
 import LoginPage from './AuthPage/LoginPage';
 import HomePage from './HomePage/HomePage';
 import PrivatePage from './AuthPage/PrivatePage';
@@ -10,6 +11,7 @@ import RegistrationPage from './AuthPage/RegistrationPage';
 
 export default function App() {
   return (
+	<IconContext.Provider value={{ color: "#2c1a1d", size: "20px", className: "react-icons"}}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -38,5 +40,6 @@ export default function App() {
 
       </Routes>
     </BrowserRouter>
+	</IconContext.Provider>
   )
 }

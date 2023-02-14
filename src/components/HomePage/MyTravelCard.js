@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components";
+import { WrapperBase } from "../../style/styledComponents";
 
 export default function MyTravelCard({travel}) {
     const navigate = useNavigate();
 
     return (
         <Wrapper onClick={() => {navigate(`/travelPage/${travel.id}`)}}>
-                    <h6>{travel.name}</h6>
-                    <h6>{travel.cities.name}</h6>
+                    <img src={travel.img} alt={travel.name}/>
+                    <WrapperBase>
+                        <h6>{travel.name}</h6>
+                        <p>{travel.cityName}</p>
+                    </WrapperBase>
+                    
         </Wrapper>
     )
 }

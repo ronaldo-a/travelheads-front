@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { insertFeature } from "../../services/travelheadsAPI";
+import { Button, Form } from "../../style/styledComponents";
 
 export default function AddFeatureCard({travelId, setShowAddFeature}) {
     const [form, setForm] = useState({});
@@ -38,7 +39,7 @@ export default function AddFeatureCard({travelId, setShowAddFeature}) {
 	}
 
     return (
-        <>
+        <Form show={setShowAddFeature}>
             <form onSubmit={sendForm}>
                 <input name="name"
                         type="text"
@@ -75,9 +76,10 @@ export default function AddFeatureCard({travelId, setShowAddFeature}) {
                         placeholder="Bairro"
                         disabled={isButtonDisabled ? true : false}
                         onChange={handleForm} />              
-                <button name="addTravel" type="submit" disabled={isButtonDisabled}>Adicionar viagem</button>
+                <Button name="addTravel" type="submit" disabled={isButtonDisabled}>Adicionar viagem</Button>
             </form>
-            <button onClick={() => setShowAddFeature(false)}>Cancelar</button>
-        </>
+            <Button onClick={() => setShowAddFeature(false)}>Cancelar</Button>
+        </Form>
     )
 }
+

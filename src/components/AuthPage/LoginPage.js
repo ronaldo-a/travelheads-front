@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../services/travelheadsAPI.js';
+import { Button, Form } from '../../style/styledComponents.js';
+import { getRandomPhoto } from '../../style/getUnsplashImages.js';
 
 export default function LoginPage() {
 	const [form, setForm] = useState({});
 	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+	const [ unsplashData, setUnsplashData ] = useState(null);
 	const navigate = useNavigate();
 	const data = localStorage.getItem('session');
 
@@ -15,6 +18,19 @@ export default function LoginPage() {
 			navigate('/home');
 			return;
 		}
+
+		async function getBackgroundPhoto() {
+			try {
+				const photo = await getRandomPhoto();
+				setUnsplashData(photo);
+			} catch (error) {
+				console.log(error)
+				setUnsplashData(error.message);
+			}
+		}
+
+		getBackgroundPhoto();
+
 	}, [data, navigate]);
 
 	function handleForm(event) {
@@ -45,8 +61,9 @@ export default function LoginPage() {
 	}
 
 	return (
-		<MainPageContent>
-			<FormDiv>
+		unsplashData ? 
+		<MainPageContent unsplashData={unsplashData}>
+			<Form>
 				<form onSubmit={sendForm}>
 					<input
 						name="email"
@@ -64,20 +81,36 @@ export default function LoginPage() {
 						onChange={handleForm}
 						disabled={isButtonDisabled ? true : false}
 					/>
-					<button name="login" type="submit" disabled={isButtonDisabled}>
+					<Button name="login" type="submit" disabled={isButtonDisabled}>
 						log in
-					</button>
+					</Button>
 					<Link to="/registrate">
 						<h1>First time? Create an account!</h1>
 					</Link>
 				</form>
-			</FormDiv>
+			</Form>
+			<PhotoInfo>
+				<a href={unsplashData.photoAuthorLink} target="_blank" rel="noreferrer"><p>{unsplashData.photoAuthorName} @ unsplash</p></a>
+			</PhotoInfo>
 		</MainPageContent>
+		:
+		<h1>Deu erro</h1>
 	);
 }
 
 const MainPageContent = styled.div`
+	height: 100vh;
 	display: flex;
+	background-image: ${(props) => `url(${props.unsplashData.photoUrl})`};
+	background-size: cover;
+  	overflow: hidden;
+	position: relative;
+
+	a {
+		text-decoration: none;
+		color: inherit;
+		margin-top: 35px;
+	}
 
 	@media (max-width: 635px) {
 		display: flex;
@@ -85,75 +118,18 @@ const MainPageContent = styled.div`
 	}
 `;
 
-const FormDiv = styled.div`
-	form {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		padding: 0 50px;
-		justify-content: center;
+const PhotoInfo = styled.div`
+	position: absolute;
+	bottom: 40px;
+	right: 50px;
 
-		@media (max-width: 635px) {
-			margin-top: 10%;
-			padding: 0;
-			justify-content: center;
-			align-items: center;
-		}
+	a {
+		font-family: 'Alegreya Sans', sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 17px;
+    	color: white;
+		text-shadow: 2px 2px 2px black;
 	}
-
-	input {
-		all: unset;
-		width: 430px;
-		height: 65px;
-		background: #ffffff;
-		border-radius: 6px;
-		margin-bottom: 13px;
-		padding-left: 20px;
-
-		@media (max-width: 635px) {
-			width: 85%;
-		}
-	}
-
-	input::placeholder {
-		font-weight: 700;
-		font-size: 27px;
-		line-height: 40px;
-		padding-left: 20px;
-	}
-
-	button {
-		all: unset;
-		width: 430px;
-		height: 65px;
-		background: #1877f2;
-		border-radius: 6px;
-		margin-bottom: 13px;
-		padding-left: 20px;
-		font-family: 'Oswald';
-		font-style: normal;
-		font-weight: 700;
-		font-size: 27px;
-		color: #ffffff;
-		text-align: center;
-
-		@media (max-width: 635px) {
-			width: 85%;
-		}
-	}
-
-	button:disabled {
-		background: #000000;
-	}
-
-	p {
-		font-family: 'Lato';
-		font-style: normal;
-		font-weight: 400;
-		font-size: 20px;
-		text-decoration: underline;
-		color: #ffffff;
-		text-align: center;
-	}
-`;
+`
 
