@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+const CardWrapper = styled.span`
+    img {
+        width: 230px;
+        height: 214px;
+        object-fit: cover;
+    }
+`
 const Page = styled.section`
     display: flex;
     flex-direction: column;
@@ -144,4 +151,4 @@ const Form = styled.div`
         }
     }
 `
-export { Page, SectionWrapper, CardsRow, SectionTitle, SectionEmptyTitle, Button, WrapperBase, PageTop, Form };
+export { Page, SectionWrapper, CardsRow, SectionTitle, SectionEmptyTitle, Button, WrapperBase, PageTop, Form, CardWrapper };

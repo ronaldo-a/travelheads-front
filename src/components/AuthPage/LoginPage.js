@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../services/travelheadsAPI.js';
-import { Button, Form } from '../../style/styledComponents.js';
 import { getRandomPhoto } from '../../style/getUnsplashImages.js';
+import { Box, Button, Link, TextField } from '@mui/material';
+
 
 export default function LoginPage() {
 	const [form, setForm] = useState({});
@@ -63,32 +64,41 @@ export default function LoginPage() {
 	return (
 		unsplashData ? 
 		<MainPageContent unsplashData={unsplashData}>
-			<Form>
-				<form onSubmit={sendForm}>
-					<input
+			<Box component="form" onSubmit={sendForm} autoComplete="off"
+			sx={{ width: "400px", height:"300px", display: "flex", flexDirection: "column", 
+				justifyContent: "space-evenly",
+				alignItems: "center",
+				bgcolor: "white",
+				p: "20px",
+				borderRadius: "5px",
+				boxShadow: "1px 1px 10px 1px black"
+      		}}>
+					<TextField
+						variant="outlined"
 						name="email"
-						type="text"
-						placeholder="E-mail"
+						type="email"
+						label="E-mail"
 						required
 						onChange={handleForm}
 						disabled={isButtonDisabled ? true : false}
+						fullWidth
 					/>
-					<input
+					<TextField
 						name="password"
 						type="password"
-						placeholder="Password"
+						label="Senha"
 						required
 						onChange={handleForm}
 						disabled={isButtonDisabled ? true : false}
+						fullWidth
 					/>
-					<Button name="login" type="submit" disabled={isButtonDisabled}>
-						log in
+					<Button variant="contained" name="login" type="submit" disabled={isButtonDisabled}>
+						Login
 					</Button>
-					<Link to="/registrate">
-						<h1>First time? Create an account!</h1>
+					<Link component={RouterLink} to="/registrate" sx={{textDecoration: "none", color: "black"}}>
+						First time? Create an account!
 					</Link>
-				</form>
-			</Form>
+			</Box>
 			<PhotoInfo>
 				<a href={unsplashData.photoAuthorLink} target="_blank" rel="noreferrer"><p>{unsplashData.photoAuthorName} @ unsplash</p></a>
 			</PhotoInfo>
@@ -101,16 +111,18 @@ export default function LoginPage() {
 const MainPageContent = styled.div`
 	height: 100vh;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	background-image: ${(props) => `url(${props.unsplashData.photoUrl})`};
 	background-size: cover;
   	overflow: hidden;
 	position: relative;
 
-	a {
+	/* a {
 		text-decoration: none;
 		color: inherit;
 		margin-top: 35px;
-	}
+	} */
 
 	@media (max-width: 635px) {
 		display: flex;

@@ -8,6 +8,7 @@ import PrivatePage from './AuthPage/PrivatePage';
 import CityPage from './CityPage/CityPage';
 import TravelPage from './TravelPage/travelPage';
 import RegistrationPage from './AuthPage/RegistrationPage';
+import MapPage from './MapPage';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
 		<Route path="/registrate" element={<RegistrationPage />} />
+		<Route path="/map" element={MapPage} />
         
         <Route path="/home"
 						element={

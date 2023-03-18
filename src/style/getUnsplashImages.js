@@ -8,7 +8,7 @@ async function getRandomPhoto() {
 	  });
 
       try {
-        const photo = await api.photos.getRandom({ query: "travel", orientation: "landscape" });
+        const photo = await api.photos.getRando({ query: "travel", orientation: "landscape" });
         const photoUrl = photo.response.urls.raw;
         const photoAuthorName = photo.response.user.name;
         const photoAuthorLink = photo.response.user.links.html; 

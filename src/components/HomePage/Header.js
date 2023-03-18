@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { SlMenu } from "react-icons/sl";
 import { getUserById } from "../../services/travelheadsAPI";
 import UserOptMenu from "./UserOptMenu";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
 export default function Header() {
     const [ userName, setUserName ] = useState("");
@@ -29,69 +36,29 @@ export default function Header() {
     }, [])
 
     return (
-        <HeaderWrapper>
-            <AppTitle onClick={() => navigate("/home")}>TravelHeads</AppTitle>
-            <UserInfo>
-                <p>{userName}</p>
-                <img src={userImg} alt={userName} />
-                <SlMenu className="react-icons" onClick={() => setShowUserOpt(!showUserOpt)}/>
-            </UserInfo>
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="sticky">
+                <Toolbar sx={{alignItems: "center"}}>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{ mr: 2 }}
+                        onClick={() => setShowUserOpt(!showUserOpt)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h4" component="h1" onClick={() => navigate("/home")} sx={{ flexGrow: 1 }}>
+                        TravelHeads
+                    </Typography>
+                <Stack direction="row" spacing={2} alignItems="center" divider={<Divider orientation="vertical" flexItem />}>
+                    <Typography variant="h6" align="justify">{userName}</Typography>
+                    <Avatar alt={userName} src={userImg} sx={{ width: 48, height: 48 }}/>
+                </Stack>
+            </Toolbar>
             {showUserOpt && <UserOptMenu setShowUserOpt={setShowUserOpt}/>}
-        </HeaderWrapper>
+            </AppBar>
+        </Box>
     )
 }
-
-const HeaderWrapper = styled.div`
-    height: 68px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 15px;
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    //background: rgba(255, 255, 255, 0.8);
-    background-color: #6c534e;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
-`
-const AppTitle = styled.h1`
-    position: absolute;
-    left: 40%;
-    top: 0;
-
-    font-family: 'Abril Fatface', cursive;
-    font-size: 48px;
-    font-weight: 400;
-    line-height: 65px;
-    color: #2c1a1d;
-
-    :hover {
-        cursor: pointer;
-    }
-`
-const UserInfo = styled.div`
-    display: flex;
-    align-items: center;
-    position: absolute;
-    right: 50px;
-
-    p {
-        font-family: 'Alegreya Sans', sans-serif;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 17px;
-        color: #4B4B4B;
-    }
-
-    img {
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin: 0 15px;
-    }
-
-    .react-icons {
-        color: red;
-    }
-`

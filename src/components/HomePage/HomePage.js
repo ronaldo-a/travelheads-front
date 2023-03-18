@@ -4,8 +4,9 @@ import { getCities, getFeatures, getMyTravels } from "../../services/travelheads
 import AddTravelCard from "./addTravelCard";
 import CityCard from "./CityCard";
 import MyTravelCard from "./MyTravelCard";
-import { Page, SectionWrapper, CardsRow, SectionTitle, SectionEmptyTitle, Button } from "../../style/styledComponents";
+import { Page, SectionWrapper, CardsRow, SectionTitle, SectionEmptyTitle } from "../../style/styledComponents";
 import Header from "./Header";
+import { Button } from "@mui/material";
 
 export default function HomePage() {
     const [ myTravels, setMyTravels ] = useState([]);
@@ -90,7 +91,7 @@ export default function HomePage() {
                     {MyTravelsWithImage.map(travel => <MyTravelCard travel={travel} key={travel.id}/>)}
                 </CardsRow>
                 }
-                <Button onClick={() => setShowAddTravel(true)}>Adicionar viagem</Button>    
+                <Button variant="contained" name="addTravel" onClick={() => setShowAddTravel(true)}>Adicionar viagem</Button>    
             </TravelsSection>
         </Page>
         :
@@ -118,7 +119,7 @@ export default function HomePage() {
                             {myTravels.map(travel => <MyTravelCard travel={travel} key={travel.id}/>)}
                         </CardsRow>
                         }
-                        <Button onClick={() => setShowAddTravel(true)}>Adicionar viagem</Button>    
+                        <Button variant="contained" name="addTravel" onClick={() => setShowAddTravel(true)}>Adicionar viagem</Button>    
                     </TravelsSection>
                 </Page>
             </>

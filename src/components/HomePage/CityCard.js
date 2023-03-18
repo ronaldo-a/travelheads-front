@@ -1,34 +1,26 @@
 import { useNavigate } from "react-router-dom"
-import styled from "styled-components";
-import { WrapperBase } from "../../style/styledComponents";
+import { Box, Paper, Typography } from '@mui/material';
 
 export default function CityCard({city}) {
     const navigate = useNavigate();
 
     return (
-        <Wrapper onClick={() => navigate(`/cityPage/${city.id}`)}>
-                <img src={city.img} alt={city.name}/>
-                <WrapperBase>
-                    <h6>{city.name}</h6>
-                    <p>{city.country}</p>
-                </WrapperBase>
-        </Wrapper>
+            <Paper 
+                className="cityCard" 
+                elevation={5}
+                onClick={() => navigate(`/cityPage/${city.id}`)}
+                sx={{width:'200px', height:'150px'}}
+            >
+                <img src={city.img} alt={city.name} height="100px" width="100%" object-fit="cover"/>
+                <Box paddingX={1}>
+                    <Typography variant="h5" component="h6">
+                        {city.name}
+                    </Typography>
+                    <Typography variant="h6" component="h6">
+                        {city.country}
+                    </Typography>
+                </Box>
+            </Paper>
     )
 }
 
-const Wrapper = styled.div`
-    width: 230px;
-    height: 290px;
-    box-sizing: border-box;
-    margin-right: 25px;
-
-    img {
-        width: 230px;
-        height: 214px;
-        object-fit: cover;
-    }
-
-    :hover {
-        cursor: pointer;
-    }
-`
